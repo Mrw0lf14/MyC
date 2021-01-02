@@ -2,7 +2,7 @@
 #include <time.h>
 #include <stdlib.h>
 
-#define N 10
+#define N 20
 
 void init_pole(int** pole, int n);
 void show_pole(int** pole, int n);
@@ -21,7 +21,7 @@ int main()
     while(1){
         show_pole(pole, N);
         pole = life_step(pole, N);
-        getchar();
+        sleep(1);
     }
     return 0;
 }
@@ -45,7 +45,10 @@ void show_pole(int** pole, int n){
     for(int i = 0; i < n; i++){
         printf("| ");
         for(int j = 0; j < n; j++){
-            printf("%d ", pole[i][j]);
+            if(pole[i][j] == 0)
+                printf("%d ", pole[i][j]);
+            else
+                printf("  ");
         }
         printf("|\n");
     }
@@ -68,6 +71,9 @@ int** life_step(int** pole, int n){
     int** tpole = (int**) malloc(N*sizeof(int*));
     for(int i = 0; i < N; i++){
         tpole[i] = (int*) calloc(N ,sizeof(int));
+        for(int j = 0; j < N; j++){
+            tpole[i][j] = pole[i][j];
+        }
     }
     
     for(int i = 0; i < n; i++){
@@ -78,7 +84,7 @@ int** life_step(int** pole, int n){
                     tpole[i][j] = 1;
                 }
             } 
-            else{
+            if (pole[i][j] == 1){
                 if(k < 2 || k > 3){
                     tpole[i][j] = 0;
                 }
